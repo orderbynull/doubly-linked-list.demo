@@ -1,3 +1,3 @@
-module github.com/orderbynull/double-linked-list.demo
+module github.com/orderbynull/doubly-linked-list.demo
 
 go 1.12
