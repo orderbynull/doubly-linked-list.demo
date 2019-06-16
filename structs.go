@@ -1,4 +1,6 @@
-package dllist
+package main
+
+import "fmt"
 
 // Item это структура представляющая узел двусвязного списка.
 type Item struct {
@@ -28,10 +30,14 @@ func (i *Item) Prev() *Item {
 func (i *Item) Remove() {
 	if i.Prev() != nil {
 		i.Prev().next = i.Next()
+	} else {
+		i.list.first = i.Next()
 	}
 
 	if i.Next() != nil {
 		i.Next().prev = i.Prev()
+	} else {
+		i.list.last = i.Prev()
 	}
 
 	if i.list.Len() == 1 {
@@ -98,4 +104,44 @@ func (l *List) PushBack(value interface{}) {
 	}
 
 	l.len++
+}
+
+func printList(list List) {
+	item := list.First()
+	for {
+		if item == nil {
+			break
+		}
+
+		fmt.Printf(" %d ", item.Value())
+
+		item = item.Next()
+	}
+}
+
+func main() {
+	var list List
+
+
+	for i := 1; i <= 10; i++ {
+		list.PushBack(i)
+	}
+
+	fmt.Printf("Значения после инициализации списка: ")
+	printList(list)
+
+	fmt.Printf("\nЗначения после удаления первого элемента: ")
+	list.First().Remove()
+	printList(list)
+
+	fmt.Printf("\nЗначения после удаления последнего элемента: ")
+	list.Last().Remove()
+	printList(list)
+
+	fmt.Printf("\nЗначения после удаления третьего элемента: ")
+	list.First().Next().Next().Remove()
+	printList(list)
+
+	fmt.Printf("\nПервый элемент: %d", list.First().Value())
+	fmt.Printf("\nПоследний элемент: %d", list.Last().Value())
 }
